@@ -16,6 +16,16 @@ Cocktail Guru is a premium frontend portfolio experience for discovering and bui
 
 The cocktail dataset, library filters, drag-and-drop builder, Zustand stores, and LocalStorage favorites begin in later phases.
 
+## Phase 2 data layer
+
+- 63 normalized ingredients with stable IDs, categories, aliases, colors, and alcohol metadata
+- 25 complete metric-first recipes: 12 classics, 10 modern signatures, and 3 mocktails
+- Six-axis taste profiles covering sweet, sour, bitter, strong, fruity, and spicy
+- Pure lookup, recipe-resolution, search, filtering, ingredient-coverage, and measurement utilities
+- Exact Basil Beauty recipe with reference metadata
+
+Import types from `src/types`, catalog data from `src/data`, and public helpers from `src/utils`. Phase 2 remains independent of React state; Library controls and recommendation scoring belong to later phases.
+
 ## Stack
 
 - React 19 and strict TypeScript
@@ -58,7 +68,7 @@ npm run build
 
 `src/router.tsx` defines the application surface. `AppLayout` owns the persistent Header, routed content, and Footer. Home-page sections remain focused and composable under `src/components/home`, while reusable interaction primitives live under `src/components/ui`.
 
-Only the mobile menu uses local component state in Phase 1. Zustand and LocalStorage are intentionally absent until product state exists.
+Only the mobile menu uses local component state. Zustand and LocalStorage are intentionally absent until product state exists.
 
 ## Accessibility
 
