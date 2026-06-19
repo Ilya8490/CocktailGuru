@@ -1,0 +1,3 @@
+import {describe,expect,it} from 'vitest'
+import {formatMetricQuantity,millilitresToOunces} from './measurements'
+describe('measurement utilities',()=>{it('formats whole and fractional metric quantities',()=>{expect(formatMetricQuantity(60,'ml')).toBe('60 ml');expect(formatMetricQuantity(7.5,'ml')).toBe('7.5 ml')});it('pluralizes countable units',()=>{expect(formatMetricQuantity(1,'piece')).toBe('1 piece');expect(formatMetricQuantity(3,'leaf')).toBe('3 leaves');expect(formatMetricQuantity(2,'dash')).toBe('2 dashes')});it('converts millilitres to stable ounces',()=>expect(millilitresToOunces(30)).toBe(1.01))})
