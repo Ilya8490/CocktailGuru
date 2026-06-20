@@ -26,6 +26,18 @@ The cocktail dataset, library filters, drag-and-drop builder, Zustand stores, an
 
 Import types from `src/types`, catalog data from `src/data`, and public helpers from `src/utils`. Phase 2 remains independent of React state; Library controls and recommendation scoring belong to later phases.
 
+## Phase 3 Library
+
+- Responsive editorial grid for all 25 cocktails
+- Instant search and shareable URL filters for `style`, `ingredient`, `taste`, and `glass`
+- One shared filter configuration across desktop and mobile controls
+- Data-driven cocktail pages at `/library/:slug`
+- Complete metric recipes, taste profiles, methods, garnish, instructions, and references
+- Safe return navigation to the previous filtered Library view
+- Branded empty and invalid-cocktail recovery states
+
+Library state lives entirely in the URL. Search typing replaces the current history entry, while intentional filter changes create navigable history entries.
+
 ## Stack
 
 - React 19 and strict TypeScript
@@ -56,11 +68,12 @@ npm run build
 
 ## Routes
 
-| Route | Phase 1 behavior |
+| Route | Behavior |
 | --- | --- |
 | `/` | Complete landing experience |
 | `/builder` | Builder preview placeholder |
-| `/library` | Library preview placeholder |
+| `/library` | Searchable and filterable cocktail collection |
+| `/library/:slug` | Data-driven cocktail recipe and taste profile |
 | `/favorites` | Favorites preview placeholder |
 | Any unknown path | Branded 404 recovery |
 
