@@ -10,6 +10,7 @@ describe('cocktail utilities',()=>{
   it('uses AND semantics across origin, ingredient, and glass groups',()=>{expect(filterCocktails({origin:['classic'],ingredientIds:['gin','citron-vodka'],glass:['rocks']}).map(c=>c.id)).toEqual(['negroni'])})
   it('matches canonical ingredient IDs',()=>{expect(filterCocktails({ingredientIds:['citron-vodka']}).map(c=>c.id)).toEqual(['basil-beauty'])})
   it('uses OR semantics for prominent tastes with scores of at least four',()=>{const results=filterCocktails({prominentTastes:['bitter','fruity']});expect(results.map(c=>c.id)).toEqual(expect.arrayContaining(['negroni','basil-beauty']));expect(results.every(c=>c.taste.bitter>=4||c.taste.fruity>=4)).toBe(true)})
+  it('includes taste scores at the threshold and excludes scores below it',()=>{const ids=filterCocktails({prominentTastes:['fruity']}).map(c=>c.id);expect(ids).toContain('paloma');expect(ids).not.toContain('margarita')})
   it('combines ingredient and prominent taste groups',()=>{const results=filterCocktails({ingredientIds:['gin'],prominentTastes:['bitter']});expect(results.map(c=>c.id)).toContain('negroni');expect(results.every(c=>c.ingredients.some(line=>line.ingredientId==='gin')&&c.taste.bitter>=4)).toBe(true)})
   it('reports deduplicated ingredient coverage',()=>{const coverage=getIngredientCoverage(getCocktailById('negroni')!,['gin','campari','gin']);expect(coverage.available).toHaveLength(2);expect(coverage.missing).toHaveLength(1);expect(coverage.ratio).toBeCloseTo(2/3)})
 })
