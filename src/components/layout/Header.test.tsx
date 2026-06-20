@@ -10,7 +10,7 @@ describe('Header', () => {
     const home = screen.getByRole('link', { name: 'Home' })
     expect(home).toHaveAttribute('aria-current', 'page')
     await user.click(screen.getAllByRole('link', { name: 'Library' })[0])
-    expect(screen.getByRole('heading', { name: /collection is being curated/i })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: /choose your ritual/i })).toBeInTheDocument()
   })
 
   it('opens and closes the mobile navigation after selection', async () => {

@@ -11,7 +11,6 @@ describe('application routes', () => {
 
   it.each([
     ['/builder', 'The atelier is being prepared'],
-    ['/library', 'The collection is being curated'],
     ['/favorites', 'Your private selection is coming'],
   ])('renders a purposeful placeholder at %s', (path, heading) => {
     renderApp(path)
