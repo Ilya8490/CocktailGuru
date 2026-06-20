@@ -47,7 +47,6 @@ export function MobileFilterSheet({ query, onToggle, onClearAll }: MobileFilterS
 
       <dialog
         aria-labelledby={`${dialogId}-title`}
-        aria-modal="true"
         className="mobile-filter-sheet__dialog"
         id={dialogId}
         ref={dialogRef}

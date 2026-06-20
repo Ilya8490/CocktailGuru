@@ -17,6 +17,8 @@ interface ActiveFilter {
   label: string
 }
 
+const getSelectedValues = (query: LibraryQuery, key: LibraryFilterKey): readonly string[] => query[key]
+
 const getFilterLabel = (key: LibraryFilterKey, value: string) => {
   const group = libraryFilterGroups.find((candidate) => candidate.key === key)
   const configuredLabel = group?.options.find((option) => option.value === value)?.label
@@ -28,7 +30,7 @@ const getFilterLabel = (key: LibraryFilterKey, value: string) => {
 
 const getActiveFilters = (query: LibraryQuery): ActiveFilter[] =>
   libraryFilterGroups.flatMap((group) =>
-    (query[group.key] as readonly string[]).map((value) => ({
+    getSelectedValues(query, group.key).map((value) => ({
       key: group.key,
       value,
       label: getFilterLabel(group.key, value),
