@@ -1,0 +1,77 @@
+import { libraryFilterGroups } from '../../config/libraryFilters'
+import type { LibraryFilterKey } from '../../config/libraryFilters'
+import type { LibraryFilterAction } from '../../hooks/useLibraryFilters'
+import { getIngredientById } from '../../utils/cocktails'
+import type { LibraryQuery } from '../../utils/libraryQuery'
+
+interface ActiveFiltersProps {
+  query: LibraryQuery
+  onRemove: LibraryFilterAction
+  onSearch: (value: string) => void
+  onClearAll: () => void
+}
+
+interface ActiveFilter {
+  key: LibraryFilterKey
+  value: string
+  label: string
+}
+
+const getFilterLabel = (key: LibraryFilterKey, value: string) => {
+  const group = libraryFilterGroups.find((candidate) => candidate.key === key)
+  const configuredLabel = group?.options.find((option) => option.value === value)?.label
+
+  if (configuredLabel) return configuredLabel
+  if (key === 'ingredientIds') return getIngredientById(value)?.name ?? value
+  return value
+}
+
+const getActiveFilters = (query: LibraryQuery): ActiveFilter[] =>
+  libraryFilterGroups.flatMap((group) =>
+    (query[group.key] as readonly string[]).map((value) => ({
+      key: group.key,
+      value,
+      label: getFilterLabel(group.key, value),
+    })),
+  )
+
+export function ActiveFilters({ query, onRemove, onSearch, onClearAll }: ActiveFiltersProps) {
+  const activeFilters = getActiveFilters(query)
+  const hasSearch = Boolean(query.q)
+
+  if (!hasSearch && activeFilters.length === 0) return null
+
+  return (
+    <section className="active-filters" aria-label="Active filters">
+      <div className="active-filters__list">
+        {hasSearch && (
+          <button className="active-filters__chip" type="button" onClick={() => onSearch('')}>
+            <span className="active-filters__chip-category">Search</span>
+            <span className="active-filters__chip-label">{query.q}</span>
+            <span className="active-filters__chip-remove" aria-hidden="true">
+              ×
+            </span>
+            <span className="visually-hidden">Remove search filter</span>
+          </button>
+        )}
+        {activeFilters.map((filter) => (
+          <button
+            className="active-filters__chip"
+            key={`${filter.key}-${filter.value}`}
+            type="button"
+            onClick={() => onRemove(filter.key, filter.value)}
+          >
+            <span className="active-filters__chip-label">{filter.label}</span>
+            <span className="active-filters__chip-remove" aria-hidden="true">
+              ×
+            </span>
+            <span className="visually-hidden">Remove {filter.label} filter</span>
+          </button>
+        ))}
+      </div>
+      <button className="active-filters__clear" type="button" onClick={onClearAll}>
+        Clear all
+      </button>
+    </section>
+  )
+}
