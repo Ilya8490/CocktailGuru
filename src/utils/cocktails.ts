@@ -1,5 +1,5 @@
 import { cocktails,ingredients } from '../data'
-import type { Cocktail,CocktailOrigin,Glassware,IngredientCategory,RecipeIngredient,Ingredient } from '../types'
+import type { Cocktail,CocktailOrigin,Glassware,IngredientCategory,RecipeIngredient,Ingredient,TasteAxis } from '../types'
 
 const ingredientMap=new Map(ingredients.map(i=>[i.id,i]))
 const cocktailIdMap=new Map(cocktails.map(c=>[c.id,c]))
@@ -17,11 +17,13 @@ export const searchCocktails=(query:string):Cocktail[]=>{
   return cocktails.filter(c=>{const ingredientText=resolveRecipe(c).flatMap(({ingredient,displayNote})=>[ingredient.name,...ingredient.aliases,displayNote??'']);return [c.name,c.description,...c.tags,...ingredientText].some(value=>normalize(value).includes(needle))})
 }
 
-export interface CocktailFilters { origin?:CocktailOrigin[]; tags?:string[]; ingredientCategories?:IngredientCategory[]; glass?:Glassware[]; alcoholic?:boolean }
+export interface CocktailFilters { origin?:CocktailOrigin[]; tags?:string[]; ingredientCategories?:IngredientCategory[]; ingredientIds?:string[]; prominentTastes?:TasteAxis[]; glass?:Glassware[]; alcoholic?:boolean }
 export const filterCocktails=(filters:CocktailFilters):Cocktail[]=>cocktails.filter(c=>{
   if(filters.origin?.length&&!filters.origin.includes(c.origin))return false
   if(filters.glass?.length&&!filters.glass.includes(c.glass))return false
   if(filters.tags?.length&&!filters.tags.some(tag=>c.tags.includes(tag)))return false
+  if(filters.ingredientIds?.length&&!c.ingredients.some(line=>filters.ingredientIds!.includes(line.ingredientId)))return false
+  if(filters.prominentTastes?.length&&!filters.prominentTastes.some(axis=>c.taste[axis]>=4))return false
   const resolved=resolveRecipe(c)
   if(filters.ingredientCategories?.length&&!resolved.some(({ingredient})=>filters.ingredientCategories!.includes(ingredient.category)))return false
   if(filters.alcoholic!==undefined&&resolved.some(({ingredient})=>ingredient.isAlcoholic)!==filters.alcoholic)return false
