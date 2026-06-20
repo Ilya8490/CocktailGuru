@@ -1,10 +1,15 @@
 import { cocktails, ingredients } from '../data'
 import type { CocktailOrigin, Glassware, TasteAxis } from '../types'
+import type { LibraryQuery } from '../utils/libraryQuery'
 
 interface FilterOption<T extends string> {
   value: T
   label: string
 }
+
+export type LibraryFilterKey = {
+  [Key in keyof LibraryQuery]: LibraryQuery[Key] extends readonly unknown[] ? Key : never
+}[keyof LibraryQuery]
 
 export const styleOptions: ReadonlyArray<FilterOption<CocktailOrigin>> = [
   { value: 'classic', label: 'Classics' },
@@ -47,4 +52,8 @@ export const libraryFilterGroups = [
   { key: 'ingredientIds', label: 'Ingredient', options: ingredientOptions },
   { key: 'tastes', label: 'Taste', options: tasteOptions },
   { key: 'glasses', label: 'Glass', options: glassOptions },
-] as const
+] as const satisfies ReadonlyArray<{
+  key: LibraryFilterKey
+  label: string
+  options: ReadonlyArray<FilterOption<string>>
+}>

@@ -35,12 +35,31 @@ describe('library query contract', () => {
   })
 
   it('intersects text search with every selected filter group', () => {
-    expect(getLibraryResults({
-      q: 'ruby equal-parts',
-      styles: ['classic'],
+    const resultIds = (query: Parameters<typeof getLibraryResults>[0]) =>
+      getLibraryResults(query).map(({ id }) => id)
+    const baseQuery = {
+      q: 'juice',
+      styles: [],
+      ingredientIds: [],
+      tastes: [],
+      glasses: [],
+    }
+
+    expect(resultIds(baseQuery)).toHaveLength(17)
+    expect(resultIds({ ...baseQuery, tastes: ['fruity'] })).toHaveLength(10)
+    expect(resultIds({ ...baseQuery, tastes: ['fruity'], styles: ['modern'] })).toHaveLength(6)
+    expect(resultIds({
+      ...baseQuery,
+      styles: ['modern'],
       ingredientIds: ['gin'],
-      tastes: ['bitter'],
-      glasses: ['rocks'],
-    }).map(({ id }) => id)).toEqual(['negroni'])
+      tastes: ['fruity'],
+    })).toHaveLength(3)
+    expect(resultIds({
+      ...baseQuery,
+      styles: ['modern'],
+      ingredientIds: ['gin'],
+      tastes: ['fruity'],
+      glasses: ['coupe'],
+    })).toEqual(['rosewood-sour'])
   })
 })
