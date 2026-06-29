@@ -41,6 +41,19 @@ Pure utilities handle parsing, serialization, selection updates, and cocktail ma
 
 This approach is preferred over Zustand because Phase 4 state is small, shareable, and route-specific. LocalStorage belongs to Phase 6 favorites. A heavier animated-builder architecture is deferred to Phase 5.
 
+No new global state library should be introduced.
+
+## File and Folder Direction
+
+Phase 4 builder code should live together under a feature folder:
+
+- `src/features/builder/builder.utils.ts` — URL parsing, serialization, canonical ordering, and selection helpers
+- `src/features/builder/builder.matching.ts` — exact and near-match scoring from cocktail data
+- `src/features/builder/useBuilderIngredients.ts` — route hook that adapts builder utilities to React Router
+- `src/features/builder/` components — shelf, token, mixing glass, results, cards, and empty states
+
+`src/pages/BuilderPage.tsx` should stay a thin route composition layer.
+
 ## URL Contract
 
 The Builder uses one canonical query parameter:
@@ -56,6 +69,7 @@ Rules:
 - Serialization emits IDs in ingredient-registry order for deterministic URLs.
 - Empty selection serializes to `/builder`.
 - Adding or removing ingredients uses history push because each selection change is intentional.
+- URL updates preserve canonical order and avoid unnecessary navigation when the selected ingredient state does not change.
 
 ## Component Boundaries
 
@@ -90,12 +104,15 @@ Tap is the baseline interaction on every device. Drag-and-drop is an enhancement
 
 The drag implementation should stay simple and browser-native where practical. Phase 5 can add richer motion after the behavior is stable.
 
+Drag-and-drop must not introduce a heavy dependency unless it is already installed. Prefer native drag events or lightweight in-house pointer handling for this phase.
+
 ## Matching Semantics
 
 Matching uses the Phase 2 catalog and normalized recipe ingredient IDs.
 
 - Exact match: every recipe ingredient exists in the selected set.
 - Near match: at least one recipe ingredient exists in the selected set, but some are missing.
+- Near matches are shown only when they are meaningfully close: coverage is at least 50% or the recipe is missing no more than 3 ingredients.
 - Zero selected ingredients: show the empty state, not ranked results.
 - Results sort exact matches first, then by coverage ratio descending, then by fewer missing ingredients, then by cocktail name.
 - A match card exposes available and missing ingredient names through resolved recipe metadata.
