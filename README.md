@@ -38,6 +38,15 @@ Import types from `src/types`, catalog data from `src/data`, and public helpers 
 
 Library state lives entirely in the URL. Search typing replaces the current history entry, while intentional filter changes create navigable history entries.
 
+## Phase 4 Builder
+
+- Interactive `/builder` route powered by URL-selected ingredient IDs
+- Tap-first ingredient selection with native drag-and-drop enhancement
+- Featured bar shelf plus full ingredient search
+- Mixing-glass selected state with clear and remove actions
+- Exact recipe matches first, followed by ranked near matches
+- No global state library or LocalStorage persistence
+
 ## Stack
 
 - React 19 and strict TypeScript
@@ -71,7 +80,7 @@ npm run build
 | Route | Behavior |
 | --- | --- |
 | `/` | Complete landing experience |
-| `/builder` | Builder preview placeholder |
+| `/builder` | URL-driven interactive cocktail builder |
 | `/library` | Searchable and filterable cocktail collection |
 | `/library/:slug` | Data-driven cocktail recipe and taste profile |
 | `/favorites` | Favorites preview placeholder |

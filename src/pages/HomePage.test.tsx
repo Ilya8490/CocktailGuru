@@ -16,6 +16,6 @@ describe('HomePage', () => {
     const user = userEvent.setup()
     renderApp('/')
     await user.click(screen.getAllByRole('link', { name: /start mixing/i })[0])
-    expect(screen.getByRole('heading', { name: /atelier is being prepared/i })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: /build from your bar/i })).toBeInTheDocument()
   })
 })

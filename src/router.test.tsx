@@ -9,8 +9,13 @@ describe('application routes', () => {
     expect(screen.getByRole('contentinfo')).toBeInTheDocument()
   })
 
+  it('renders the Builder route', () => {
+    renderApp('/builder')
+    expect(screen.getByRole('heading', { name: /build from your bar/i })).toBeInTheDocument()
+    expect(screen.getByRole('searchbox', { name: /search ingredients/i })).toBeInTheDocument()
+  })
+
   it.each([
-    ['/builder', 'The atelier is being prepared'],
     ['/favorites', 'Your private selection is coming'],
   ])('renders a purposeful placeholder at %s', (path, heading) => {
     renderApp(path)
