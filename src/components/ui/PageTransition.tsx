@@ -1,14 +1,18 @@
 import { motion, useReducedMotion } from 'framer-motion'
 import type { PropsWithChildren } from 'react'
+import { getPageTransition } from '../../animations'
 
 export function PageTransition({ children }: PropsWithChildren) {
   const reducedMotion = useReducedMotion()
+  const variants = getPageTransition(Boolean(reducedMotion))
 
   return (
     <motion.div
-      initial={reducedMotion ? false : { opacity: 0, y: 12 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: reducedMotion ? 0 : 0.42, ease: [0.22, 1, 0.36, 1] }}
+      variants={variants}
+      initial="initial"
+      animate="enter"
+      exit="exit"
+      style={{ willChange: reducedMotion ? 'opacity' : 'opacity, transform, filter' }}
     >
       {children}
     </motion.div>

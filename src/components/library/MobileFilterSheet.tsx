@@ -1,4 +1,6 @@
+import { motion } from 'framer-motion'
 import { useEffect, useId, useRef, useState } from 'react'
+import { modalVariants } from '../../animations'
 
 import type { LibraryFilterAction } from '../../hooks/useLibraryFilters'
 import type { LibraryQuery } from '../../utils/libraryQuery'
@@ -53,6 +55,7 @@ export function MobileFilterSheet({ query, onToggle, onClearAll }: MobileFilterS
         onCancel={close}
         onClose={handleDialogClose}
       >
+        <motion.div variants={modalVariants} initial="hidden" animate="visible" className="mobile-filter-sheet__panel">
         <div className="mobile-filter-sheet__header">
           <h2 className="mobile-filter-sheet__title" id={`${dialogId}-title`}>
             Refine the collection
@@ -77,6 +80,7 @@ export function MobileFilterSheet({ query, onToggle, onClearAll }: MobileFilterS
             View cocktails
           </button>
         </div>
+        </motion.div>
       </dialog>
     </div>
   )

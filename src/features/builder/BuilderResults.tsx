@@ -1,3 +1,5 @@
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
+import { createStagger, reduceLargeMotion, revealVariants } from '../../animations'
 import { BuilderMatchCard } from './BuilderMatchCard'
 import type { BuilderMatch } from './builder.matching'
 
@@ -8,22 +10,24 @@ interface BuilderResultsProps {
 }
 
 export function BuilderResults({ matches, selectedCount, onClear }: BuilderResultsProps) {
+  const reduceMotion = useReducedMotion()
+
   if (selectedCount === 0) {
     return (
-      <section className="builder-results builder-results--empty">
+      <motion.section className="builder-results builder-results--empty" variants={reduceMotion ? reduceLargeMotion : revealVariants} initial="hidden" animate="visible">
         <h2>Choose an ingredient to begin</h2>
         <p>The Guru will compare your bar against all 25 recipes.</p>
-      </section>
+      </motion.section>
     )
   }
 
   if (!matches.length) {
     return (
-      <section className="builder-results builder-results--empty">
+      <motion.section className="builder-results builder-results--empty" variants={reduceMotion ? reduceLargeMotion : revealVariants} initial="hidden" animate="visible">
         <h2>No close pour yet</h2>
         <p>Add another ingredient or clear the glass to start fresh.</p>
         <button type="button" onClick={onClear}>Clear mixing glass</button>
-      </section>
+      </motion.section>
     )
   }
 
@@ -31,11 +35,19 @@ export function BuilderResults({ matches, selectedCount, onClear }: BuilderResul
   const near = matches.filter(({ kind }) => kind === 'near')
 
   return (
-    <section className="builder-results" aria-label="Builder matches">
-      {exact.length > 0 && <h2>Ready to pour</h2>}
-      {exact.map((match) => <BuilderMatchCard key={match.cocktail.id} match={match} />)}
-      {near.length > 0 && <h2>Almost there</h2>}
-      {near.map((match) => <BuilderMatchCard key={match.cocktail.id} match={match} />)}
-    </section>
+    <motion.section
+      className="builder-results"
+      aria-label="Builder matches"
+      variants={createStagger({ staggerChildren: 0.07 })}
+      initial="hidden"
+      animate="visible"
+    >
+      <AnimatePresence mode="popLayout">
+        {exact.length > 0 && <motion.h2 variants={reduceMotion ? reduceLargeMotion : revealVariants} key="exact-title">Ready to pour</motion.h2>}
+        {exact.map((match) => <BuilderMatchCard key={match.cocktail.id} match={match} />)}
+        {near.length > 0 && <motion.h2 variants={reduceMotion ? reduceLargeMotion : revealVariants} key="near-title">Almost there</motion.h2>}
+        {near.map((match) => <BuilderMatchCard key={match.cocktail.id} match={match} />)}
+      </AnimatePresence>
+    </motion.section>
   )
 }

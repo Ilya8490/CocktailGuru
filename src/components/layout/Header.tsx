@@ -1,5 +1,7 @@
+import { AnimatePresence, motion } from 'framer-motion'
 import { useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
+import { createStagger, revealVariants, transitions } from '../../animations'
 
 const navigation = [
   { label: 'Home', to: '/' },
@@ -17,7 +19,12 @@ function NavigationLinks({ onNavigate }: { onNavigate?: () => void }) {
       onClick={onNavigate}
       className={({ isActive }) => (isActive ? 'nav-link nav-link--active' : 'nav-link')}
     >
-      {label}
+      {({ isActive }) => (
+        <>
+          <span>{label}</span>
+          {isActive && <motion.span className="nav-link__active-line" layoutId="nav-active-line" transition={transitions.medium} />}
+        </>
+      )}
     </NavLink>
   ))
 }
@@ -44,11 +51,23 @@ export function Header() {
           <span aria-hidden="true" />
         </button>
       </div>
-      {open && (
-        <nav id="mobile-navigation" className="mobile-navigation" aria-label="Mobile navigation">
-          <NavigationLinks onNavigate={() => setOpen(false)} />
-        </nav>
-      )}
+      <AnimatePresence>
+        {open && (
+          <motion.nav
+            id="mobile-navigation"
+            className="mobile-navigation"
+            aria-label="Mobile navigation"
+            variants={createStagger({ staggerChildren: 0.05 })}
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto', transition: transitions.medium }}
+            exit={{ opacity: 0, height: 0, transition: transitions.fast }}
+          >
+            <motion.div variants={revealVariants}>
+              <NavigationLinks onNavigate={() => setOpen(false)} />
+            </motion.div>
+          </motion.nav>
+        )}
+      </AnimatePresence>
     </header>
   )
 }

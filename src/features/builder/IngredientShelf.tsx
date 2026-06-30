@@ -1,3 +1,5 @@
+import { motion } from 'framer-motion'
+import { createStagger } from '../../animations'
 import { ingredients } from '../../data'
 import type { Ingredient, IngredientCategory } from '../../types'
 import { IngredientToken } from './IngredientToken'
@@ -36,7 +38,12 @@ export function IngredientShelf({ search, selectedIngredientIds, onToggle }: Ing
 
   return (
     <section className="ingredient-shelf" aria-label="Ingredient shelf">
-      <div className="ingredient-shelf__grid">
+      <motion.div
+        className="ingredient-shelf__grid"
+        variants={createStagger({ staggerChildren: 0.025, delayChildren: 0.02 })}
+        initial="hidden"
+        animate="visible"
+      >
         {visibleIngredients.map((ingredient) => (
           <IngredientToken
             key={ingredient.id}
@@ -45,7 +52,7 @@ export function IngredientShelf({ search, selectedIngredientIds, onToggle }: Ing
             onToggle={onToggle}
           />
         ))}
-      </div>
+      </motion.div>
     </section>
   )
 }
