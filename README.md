@@ -47,6 +47,16 @@ Library state lives entirely in the URL. Search typing replaces the current hist
 - Exact recipe matches first, followed by ranked near matches
 - No global state library or LocalStorage persistence
 
+## Phase 5 Motion polish
+
+- Reusable Framer Motion system with shared durations, easing, transitions, variants, stagger helpers, page transitions, hover/tap presets, and focused tests
+- Smooth route enter and exit transitions through `AnimatePresence`
+- Scroll reveals across Home, Library, cocktail detail, and Builder surfaces
+- Premium button, navigation, badge, chip, card, modal, and sheet interactions
+- Animated cocktail cards with entrance, hover lift, image zoom, shimmer, title/accent behavior, and tap compression
+- Builder motion polish for ingredient affordances, animated glass liquid, valid recipe glow, result reveals, and live taste bars
+- Reduced-motion support for animated surfaces and performance-friendly CSS transforms
+
 ## Stack
 
 - React 19 and strict TypeScript

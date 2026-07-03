@@ -22,7 +22,7 @@ describe('Header', () => {
     expect(toggle).toHaveAttribute('aria-expanded', 'true')
     const mobileNavigation = screen.getByRole('navigation', { name: 'Mobile navigation' })
     await user.click(within(mobileNavigation).getByRole('link', { name: 'Favorites' }))
-    expect(screen.getByRole('heading', { name: /private selection is coming/i })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'Favorites' })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: /open menu/i })).toHaveAttribute('aria-expanded', 'false')
   })
 })

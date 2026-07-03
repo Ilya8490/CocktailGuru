@@ -1,5 +1,6 @@
 import { Link, useLocation, useParams } from 'react-router-dom'
 import { TasteProfile } from '../components/library'
+import { FavoriteButton } from '../components/ui/FavoriteButton'
 import { PageTransition } from '../components/ui/PageTransition'
 import { formatMetricQuantity, getCocktailBySlug, resolveRecipe } from '../utils'
 
@@ -8,7 +9,7 @@ export function CocktailDetailPage() {
   const location = useLocation()
   const cocktail = getCocktailBySlug(slug)
   const state = location.state as { from?: unknown } | null
-  const backTo = typeof state?.from === 'string' && state.from.startsWith('/library') ? state.from : '/library'
+  const backTo = typeof state?.from === 'string' && (state.from.startsWith('/library') || state.from.startsWith('/favorites')) ? state.from : '/library'
 
   if (!cocktail) {
     return (
@@ -35,6 +36,9 @@ export function CocktailDetailPage() {
             <p>{cocktail.origin} · {cocktail.glass.replaceAll('-', ' ')}</p>
             <h1>{cocktail.name}</h1>
             <p>{cocktail.description}</p>
+            <div className="cocktail-detail__actions">
+              <FavoriteButton cocktailId={cocktail.id} className="favorite-button--labeled" />
+            </div>
           </div>
         </header>
         <div className="cocktail-detail__content section-gutter">

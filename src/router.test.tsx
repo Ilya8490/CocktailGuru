@@ -15,12 +15,11 @@ describe('application routes', () => {
     expect(screen.getByRole('searchbox', { name: /search ingredients/i })).toBeInTheDocument()
   })
 
-  it.each([
-    ['/favorites', 'Your private selection is coming'],
-  ])('renders a purposeful placeholder at %s', (path, heading) => {
-    renderApp(path)
-    expect(screen.getByRole('heading', { name: heading })).toBeInTheDocument()
-    expect(screen.getByRole('link', { name: /return home/i })).toHaveAttribute('href', '/')
+  it('renders the Favorites route', () => {
+    renderApp('/favorites')
+    expect(screen.getByRole('heading', { name: 'Favorites' })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: /your private cocktail collection is waiting/i })).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: /explore cocktails/i })).toHaveAttribute('href', '/library')
   })
 
   it('renders recovery UI for an unknown route', () => {

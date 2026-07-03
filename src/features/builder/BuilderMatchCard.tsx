@@ -1,6 +1,7 @@
 import { motion, useReducedMotion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import { cardHover, cardRevealVariants, cardTap, reduceLargeMotion, transitions } from '../../animations'
+import { FavoriteButton } from '../../components/ui/FavoriteButton'
 import { resolveRecipe } from '../../utils'
 import type { BuilderMatch } from './builder.matching'
 
@@ -33,7 +34,10 @@ export function BuilderMatchCard({ match }: BuilderMatchCardProps) {
         <div><dt>Available</dt><dd>{available.map(({ ingredient }) => ingredient.name).join(', ')}</dd></div>
         {missing.length > 0 && <div><dt>Missing</dt><dd>{missing.map(({ ingredient }) => ingredient.name).join(', ')}</dd></div>}
       </dl>
-      <MotionLink to={`/library/${match.cocktail.slug}`} whileHover={{ x: 2 }} whileTap={{ scale: 0.99 }}>View recipe <span aria-hidden="true">↗</span></MotionLink>
+      <div className="builder-match-card__actions">
+        <MotionLink to={`/library/${match.cocktail.slug}`} whileHover={{ x: 2 }} whileTap={{ scale: 0.99 }}>View recipe <span aria-hidden="true">↗</span></MotionLink>
+        <FavoriteButton cocktailId={match.cocktail.id} />
+      </div>
     </motion.article>
   )
 }

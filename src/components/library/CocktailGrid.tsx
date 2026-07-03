@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion'
+import { AnimatePresence, motion } from 'framer-motion'
 import { createStagger } from '../../animations'
 import type { Cocktail } from '../../types'
 import { CocktailCard } from './CocktailCard'
@@ -13,9 +13,11 @@ export function CocktailGrid({ cocktails, from }: { cocktails: Cocktail[]; from:
       whileInView="visible"
       viewport={{ once: true, amount: 0.12 }}
     >
-      {cocktails.map((cocktail, index) => (
-        <CocktailCard cocktail={cocktail} from={from} index={index} key={cocktail.id} />
-      ))}
+      <AnimatePresence mode="popLayout">
+        {cocktails.map((cocktail, index) => (
+          <CocktailCard cocktail={cocktail} from={from} index={index} key={cocktail.id} />
+        ))}
+      </AnimatePresence>
     </motion.section>
   )
 }

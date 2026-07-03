@@ -1,6 +1,7 @@
 import { motion, useReducedMotion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import { badgeVariants, cardHover, cardRevealVariants, cardTap, createStagger, reduceLargeMotion } from '../../animations'
+import { FavoriteButton } from '../ui/FavoriteButton'
 import type { Cocktail, TasteAxis } from '../../types'
 
 const tasteAxes: TasteAxis[] = ['sweet', 'sour', 'bitter', 'strong', 'fruity', 'spicy']
@@ -23,6 +24,8 @@ export function CocktailCard({ cocktail, from, index }: CocktailCardProps) {
       variants={reduceMotion ? reduceLargeMotion : cardRevealVariants}
       whileHover={reduceMotion ? undefined : cardHover}
       whileTap={reduceMotion ? undefined : cardTap}
+      layout
+      exit={{ opacity: 0, scale: 0.96, filter: 'blur(4px)', transition: { duration: 0.2 } }}
       style={{ transformPerspective: 900 }}
     >
       <motion.div
@@ -33,6 +36,7 @@ export function CocktailCard({ cocktail, from, index }: CocktailCardProps) {
         transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
       >
         <motion.span variants={badgeVariants}>{String(index + 1).padStart(2, '0')}</motion.span>
+        <FavoriteButton cocktailId={cocktail.id} className="favorite-button--on-media" />
       </motion.div>
       <div className="cocktail-card__body">
         <p className="cocktail-card__meta">{cocktail.origin} · {cocktail.glass.replaceAll('-', ' ')}</p>
