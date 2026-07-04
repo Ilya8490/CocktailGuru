@@ -22,6 +22,7 @@ interface IngredientShelfProps {
   search: string
   selectedIngredientIds: string[]
   onToggle: (ingredientId: string) => void
+  describedBy?: string
 }
 
 function matchesSearch(ingredient: Ingredient, search: string) {
@@ -30,14 +31,14 @@ function matchesSearch(ingredient: Ingredient, search: string) {
   return [ingredient.name, ...ingredient.aliases].some((value) => normalize(value).includes(needle))
 }
 
-export function IngredientShelf({ search, selectedIngredientIds, onToggle }: IngredientShelfProps) {
+export function IngredientShelf({ search, selectedIngredientIds, onToggle, describedBy }: IngredientShelfProps) {
   const visibleIngredients = ingredients.filter((ingredient) => {
     if (search) return matchesSearch(ingredient, search)
     return featuredCategories.includes(ingredient.category)
   })
 
   return (
-    <section className="ingredient-shelf" aria-label="Ingredient shelf">
+    <section className="ingredient-shelf" aria-label="Ingredient shelf" aria-describedby={describedBy}>
       <motion.div
         className="ingredient-shelf__grid"
         variants={createStagger({ staggerChildren: 0.025, delayChildren: 0.02 })}

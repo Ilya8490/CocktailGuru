@@ -16,6 +16,8 @@ export function MobileFilterSheet({ query, onToggle, onClearAll }: MobileFilterS
   const [isOpen, setIsOpen] = useState(false)
   const dialogRef = useRef<HTMLDialogElement>(null)
   const triggerRef = useRef<HTMLButtonElement>(null)
+  const closeButtonRef = useRef<HTMLButtonElement>(null)
+  const wasOpenRef = useRef(false)
   const generatedId = useId()
   const dialogId = `mobile-filters-${generatedId.replace(/:/g, '')}`
 
@@ -23,8 +25,31 @@ export function MobileFilterSheet({ query, onToggle, onClearAll }: MobileFilterS
     const dialog = dialogRef.current
     if (!dialog) return
 
-    if (isOpen && !dialog.open) dialog.showModal()
-    if (!isOpen && dialog.open) dialog.close()
+    if (isOpen) {
+      wasOpenRef.current = true
+      if (!dialog.open) {
+        if (typeof dialog.showModal === 'function') {
+          dialog.showModal()
+        } else {
+          dialog.setAttribute('open', '')
+        }
+      }
+      closeButtonRef.current?.focus()
+      return
+    }
+
+    if (dialog.open) {
+      if (typeof dialog.close === 'function') {
+        dialog.close()
+      } else {
+        dialog.removeAttribute('open')
+      }
+    }
+
+    if (wasOpenRef.current) {
+      wasOpenRef.current = false
+      triggerRef.current?.focus()
+    }
   }, [isOpen])
 
   const close = () => setIsOpen(false)
@@ -52,15 +77,19 @@ export function MobileFilterSheet({ query, onToggle, onClearAll }: MobileFilterS
         className="mobile-filter-sheet__dialog"
         id={dialogId}
         ref={dialogRef}
+        role="dialog"
         onCancel={close}
         onClose={handleDialogClose}
+        onKeyDown={(event) => {
+          if (event.key === 'Escape') close()
+        }}
       >
         <motion.div variants={modalVariants} initial="hidden" animate="visible" className="mobile-filter-sheet__panel">
         <div className="mobile-filter-sheet__header">
           <h2 className="mobile-filter-sheet__title" id={`${dialogId}-title`}>
             Refine the collection
           </h2>
-          <button className="mobile-filter-sheet__close" type="button" onClick={close}>
+          <button className="mobile-filter-sheet__close" type="button" onClick={close} ref={closeButtonRef}>
             Close
           </button>
         </div>

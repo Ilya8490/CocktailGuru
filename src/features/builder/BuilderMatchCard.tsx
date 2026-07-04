@@ -22,7 +22,7 @@ export function BuilderMatchCard({ match }: BuilderMatchCardProps) {
       variants={reduceMotion ? reduceLargeMotion : cardRevealVariants}
       initial="hidden"
       animate="visible"
-      exit={{ opacity: 0, scale: 0.98, filter: 'blur(4px)', transition: transitions.fast }}
+      exit={reduceMotion ? { opacity: 0, transition: { duration: 0.01 } } : { opacity: 0, scale: 0.98, filter: 'blur(4px)', transition: transitions.fast }}
       whileHover={reduceMotion ? undefined : cardHover}
       whileTap={reduceMotion ? undefined : cardTap}
       layout
@@ -35,7 +35,7 @@ export function BuilderMatchCard({ match }: BuilderMatchCardProps) {
         {missing.length > 0 && <div><dt>Missing</dt><dd>{missing.map(({ ingredient }) => ingredient.name).join(', ')}</dd></div>}
       </dl>
       <div className="builder-match-card__actions">
-        <MotionLink to={`/library/${match.cocktail.slug}`} whileHover={{ x: 2 }} whileTap={{ scale: 0.99 }}>View recipe <span aria-hidden="true">↗</span></MotionLink>
+        <MotionLink to={`/library/${match.cocktail.slug}`} whileHover={reduceMotion ? undefined : { x: 2 }} whileTap={reduceMotion ? undefined : { scale: 0.99 }}>View recipe <span aria-hidden="true">↗</span></MotionLink>
         <FavoriteButton cocktailId={match.cocktail.id} />
       </div>
     </motion.article>

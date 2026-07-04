@@ -1,4 +1,4 @@
-import { screen, within } from '@testing-library/react'
+import { screen, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { describe, expect, it } from 'vitest'
 import { renderApp } from '../../test/renderApp'
@@ -24,5 +24,21 @@ describe('Header', () => {
     await user.click(within(mobileNavigation).getByRole('link', { name: 'Favorites' }))
     expect(screen.getByRole('heading', { name: 'Favorites' })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: /open menu/i })).toHaveAttribute('aria-expanded', 'false')
+  })
+
+  it('closes the mobile navigation with Escape and returns focus to the menu button', async () => {
+    const user = userEvent.setup()
+    renderApp('/')
+    const toggle = screen.getByRole('button', { name: /open menu/i })
+
+    await user.click(toggle)
+    expect(toggle).toHaveAttribute('aria-expanded', 'true')
+
+    await user.keyboard('{Escape}')
+
+    await waitFor(() => {
+      expect(screen.queryByRole('navigation', { name: 'Mobile navigation' })).not.toBeInTheDocument()
+    })
+    expect(screen.getByRole('button', { name: /open menu/i })).toHaveFocus()
   })
 })

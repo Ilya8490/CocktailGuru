@@ -1,8 +1,8 @@
 Cocktail Guru
 
-Cocktail Guru is a frontend-focused portfolio project built with React, TypeScript, Vite, Tailwind CSS, and Framer Motion.
+Cocktail Guru is a frontend-focused portfolio project built with React, TypeScript, Vite, Tailwind CSS, Framer Motion, and Zustand.
 
-The application provides an immersive dark luxury experience where users can discover, explore, and build cocktails through interactive drag-and-drop mechanics.
+The application provides an immersive dark luxury experience where users can discover, explore, build, and save cocktails through an interactive builder, searchable library, persistent favorites, and responsive premium UI.
 
 The primary focus of the project is premium UI, UX, animation, and frontend architecture.
 
@@ -325,13 +325,41 @@ Persist user data.
 
 Tasks:
 
-* Favorites state
-* LocalStorage
-* Save and remove actions
+* Dedicated Zustand favorites store
+* Safe LocalStorage persistence with `cocktail-guru-favorites`
+* Ordered favorite metadata stored as `{ id, addedAt }`
+* Add, remove, toggle, duplicate prevention, and clear actions
+* Corrupted LocalStorage recovery and unavailable-storage safety
+* `useFavorites` hook resolving favorite IDs into full cocktail data
+* Reusable accessible FavoriteButton across cards, detail, and builder result
+* Dedicated `/favorites` route with sorting, count, empty state, and animated removal
+* Navigation badge with live favorite count
+* Store, hook, page, and interaction tests
 
 Deliverable:
 
-Favorites page.
+Complete persistent Favorites system.
+
+⸻
+
+Responsive hardening
+
+Goal:
+
+Remove global layout overlap and overflow issues.
+
+Completed:
+
+* Display headings use safer clamp sizing and line-height
+* Sections use stable padding, max-widths, and responsive wrapping
+* Cards and grids use resilient minmax/flex layouts
+* Library, Builder, Detail, Favorites, Header, Footer, and home sections were tightened for mobile
+* Decorative Art Deco elements stay within section boundaries
+* Browser-verified at 1440, 1024, 768, 430, and 390px with no horizontal page overflow
+
+Deliverable:
+
+Responsive app shell and page layouts.
 
 ⸻
 
@@ -343,15 +371,22 @@ Production quality UX.
 
 Tasks:
 
-* Mobile layouts
-* Keyboard navigation
-* Focus states
-* ARIA labels
-* Reduced motion support
+* Mobile layouts for Home, Builder, Library, Detail, and Favorites
+* Keyboard-accessible Header and mobile navigation
+* Escape key support and focus restoration for the mobile menu
+* Escape key support and safe focus handling for mobile filters
+* Keyboard fallback for Builder ingredient selection and removal
+* Visible gold focus styles across links, buttons, filters, cards, and builder controls
+* Semantic buttons and links for interactive controls
+* ARIA labels, expanded states, current-route states, and screen-reader helper text where useful
+* Reduced-motion support for buttons, cards, builder results, hero imagery, and decorative motion
+* Touch target hardening for mobile controls
+* Browser-verified at 320, 390, 430, 768, 1024, and 1440px across key routes
+* TypeScript, lint, test suite, and production build passing
 
 Deliverable:
 
-Accessible application.
+Production-quality responsive and accessible application.
 
 ⸻
 

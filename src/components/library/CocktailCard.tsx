@@ -25,7 +25,7 @@ export function CocktailCard({ cocktail, from, index }: CocktailCardProps) {
       whileHover={reduceMotion ? undefined : cardHover}
       whileTap={reduceMotion ? undefined : cardTap}
       layout
-      exit={{ opacity: 0, scale: 0.96, filter: 'blur(4px)', transition: { duration: 0.2 } }}
+      exit={reduceMotion ? { opacity: 0, transition: { duration: 0.01 } } : { opacity: 0, scale: 0.96, filter: 'blur(4px)', transition: { duration: 0.2 } }}
       style={{ transformPerspective: 900 }}
     >
       <motion.div
@@ -52,7 +52,7 @@ export function CocktailCard({ cocktail, from, index }: CocktailCardProps) {
         >
           {prominentTastes.map((taste) => <motion.li variants={badgeVariants} key={taste}>{taste}</motion.li>)}
         </motion.ul>
-        <MotionLink to={`/library/${cocktail.slug}`} state={{ from }} aria-label={`View ${cocktail.name}`} whileHover={{ x: 2 }} whileTap={{ scale: 0.99 }}>
+        <MotionLink to={`/library/${cocktail.slug}`} state={{ from }} aria-label={`View ${cocktail.name}`} whileHover={reduceMotion ? undefined : { x: 2 }} whileTap={reduceMotion ? undefined : { scale: 0.99 }}>
           View recipe <span aria-hidden="true">↗</span>
         </MotionLink>
       </div>

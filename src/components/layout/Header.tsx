@@ -1,5 +1,5 @@
-import { AnimatePresence, motion } from 'framer-motion'
-import { useState } from 'react'
+import { motion } from 'framer-motion'
+import { useEffect, useRef, useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
 import { createStagger, revealVariants, transitions } from '../../animations'
 import { useFavoritesStore } from '../../stores/favoritesStore'
@@ -41,7 +41,25 @@ function NavigationLinks({ favoriteCount, onNavigate }: { favoriteCount: number;
 
 export function Header() {
   const [open, setOpen] = useState(false)
+  const menuButtonRef = useRef<HTMLButtonElement>(null)
+  const mobileNavigationRef = useRef<HTMLElement>(null)
   const favoriteCount = useFavoritesStore((state) => state.favoriteIds.length)
+
+  useEffect(() => {
+    if (!open) return
+
+    const firstLink = mobileNavigationRef.current?.querySelector<HTMLAnchorElement>('a')
+    firstLink?.focus()
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key !== 'Escape') return
+      setOpen(false)
+      menuButtonRef.current?.focus()
+    }
+
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [open])
 
   return (
     <header className="site-header">
@@ -52,6 +70,7 @@ export function Header() {
         </nav>
         <button
           className="menu-toggle"
+          ref={menuButtonRef}
           type="button"
           aria-controls="mobile-navigation"
           aria-expanded={open}
@@ -62,23 +81,21 @@ export function Header() {
           <span aria-hidden="true" />
         </button>
       </div>
-      <AnimatePresence>
-        {open && (
-          <motion.nav
-            id="mobile-navigation"
-            className="mobile-navigation"
-            aria-label="Mobile navigation"
-            variants={createStagger({ staggerChildren: 0.05 })}
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto', transition: transitions.medium }}
-            exit={{ opacity: 0, height: 0, transition: transitions.fast }}
-          >
-            <motion.div variants={revealVariants}>
-              <NavigationLinks favoriteCount={favoriteCount} onNavigate={() => setOpen(false)} />
-            </motion.div>
-          </motion.nav>
-        )}
-      </AnimatePresence>
+      {open && (
+        <motion.nav
+          id="mobile-navigation"
+          className="mobile-navigation"
+          aria-label="Mobile navigation"
+          ref={mobileNavigationRef}
+          variants={createStagger({ staggerChildren: 0.05 })}
+          initial={{ opacity: 0, height: 0 }}
+          animate={{ opacity: 1, height: 'auto', transition: transitions.medium }}
+        >
+          <motion.div variants={revealVariants}>
+            <NavigationLinks favoriteCount={favoriteCount} onNavigate={() => setOpen(false)} />
+          </motion.div>
+        </motion.nav>
+      )}
     </header>
   )
 }

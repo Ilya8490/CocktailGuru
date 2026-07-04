@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react'
-import { motion } from 'framer-motion'
+import { motion, useReducedMotion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import { buttonHover, buttonTap } from '../../animations'
 
@@ -12,8 +12,10 @@ interface ButtonProps {
 const MotionLink = motion.create(Link)
 
 export function Button({ children, to, variant = 'gold' }: ButtonProps) {
+  const reduceMotion = useReducedMotion()
+
   return (
-    <MotionLink className={`button button--${variant}`} to={to} whileHover={buttonHover} whileTap={buttonTap}>
+    <MotionLink className={`button button--${variant}`} to={to} whileHover={reduceMotion ? undefined : buttonHover} whileTap={reduceMotion ? undefined : buttonTap}>
       {children}<span aria-hidden="true">↗</span>
     </MotionLink>
   )

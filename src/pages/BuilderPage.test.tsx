@@ -49,4 +49,23 @@ describe('Builder page', () => {
     const shelf = screen.getByRole('region', { name: /ingredient shelf/i })
     expect(within(shelf).getByRole('button', { name: /add citron vodka/i })).toBeInTheDocument()
   })
+
+  it('supports keyboard-only ingredient selection and removal', async () => {
+    const user = userEvent.setup()
+    const { router } = renderApp('/builder')
+    const gin = screen.getByRole('button', { name: /^add gin$/i })
+
+    gin.focus()
+    await user.keyboard('{Enter}')
+
+    expect(router.state.location.search).toBe('?ingredients=gin')
+    expect(gin).toHaveAttribute('aria-pressed', 'true')
+
+    const glass = screen.getByRole('region', { name: /mixing glass/i })
+    const removeGin = within(glass).getByRole('button', { name: /^remove gin$/i })
+    removeGin.focus()
+    await user.keyboard(' ')
+
+    expect(router.state.location.search).toBe('')
+  })
 })

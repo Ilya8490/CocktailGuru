@@ -23,6 +23,7 @@ export function BuilderPage() {
   } = useBuilderIngredients()
   const matches = useMemo(() => getBuilderMatches(selectedIngredientIds), [selectedIngredientIds])
   const hasValidRecipe = matches.some(({ kind }) => kind === 'exact')
+  const keyboardHelpId = 'builder-keyboard-help'
 
   return (
     <PageTransition>
@@ -35,8 +36,11 @@ export function BuilderPage() {
           animate="visible"
         >
           <motion.div className="builder-panel" variants={revealVariants}>
+            <p id={keyboardHelpId} className="sr-only">
+              Use Tab to move through ingredients. Press Enter or Space to add or remove an ingredient. Selected ingredients can also be removed from the mixing glass.
+            </p>
             <IngredientSearch value={search} onChange={setSearch} />
-            <IngredientShelf search={search} selectedIngredientIds={selectedIngredientIds} onToggle={toggleIngredient} />
+            <IngredientShelf search={search} selectedIngredientIds={selectedIngredientIds} onToggle={toggleIngredient} describedBy={keyboardHelpId} />
           </motion.div>
           <MixingGlass
             selectedIngredientIds={selectedIngredientIds}
