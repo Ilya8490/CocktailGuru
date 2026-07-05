@@ -1,5 +1,7 @@
 Cocktail Guru
 
+Note: The polished GitHub/portfolio README now lives in `README.md`. This file is preserved as the original phase planning brief and project concept reference.
+
 Cocktail Guru is a frontend-focused portfolio project built with React, TypeScript, Vite, Tailwind CSS, Framer Motion, and Zustand.
 
 The application provides an immersive dark luxury experience where users can discover, explore, build, and save cocktails through an interactive builder, searchable library, persistent favorites, and responsive premium UI.

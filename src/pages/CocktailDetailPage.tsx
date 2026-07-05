@@ -18,7 +18,7 @@ export function CocktailDetailPage() {
           <p>404 · An empty measure</p>
           <h1>This pour is not in the collection.</h1>
           <p>The recipe may have moved, but the cabinet is still open.</p>
-          <div><Link to="/library">Return to the Library</Link><Link to="/">Go home</Link></div>
+          <div><Link to="/library">Return to the Library</Link><Link to="/">Return home</Link></div>
         </section>
       </PageTransition>
     )

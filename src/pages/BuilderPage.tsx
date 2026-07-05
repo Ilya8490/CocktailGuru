@@ -1,7 +1,8 @@
-import { useMemo, useState } from 'react'
+import { useDeferredValue, useMemo, useState } from 'react'
 import { motion } from 'framer-motion'
 import { createStagger, revealVariants } from '../animations'
 import { PageTransition } from '../components/ui/PageTransition'
+import { BuilderResultsSkeleton } from '../components/ui/LoadingStates'
 import {
   BuilderHero,
   BuilderResults,
@@ -21,7 +22,9 @@ export function BuilderPage() {
     toggleIngredient,
     clearIngredients,
   } = useBuilderIngredients()
-  const matches = useMemo(() => getBuilderMatches(selectedIngredientIds), [selectedIngredientIds])
+  const deferredIngredientIds = useDeferredValue(selectedIngredientIds)
+  const matches = useMemo(() => getBuilderMatches(deferredIngredientIds), [deferredIngredientIds])
+  const isSuggesting = deferredIngredientIds !== selectedIngredientIds
   const hasValidRecipe = matches.some(({ kind }) => kind === 'exact')
   const keyboardHelpId = 'builder-keyboard-help'
 
@@ -49,7 +52,9 @@ export function BuilderPage() {
             onClear={clearIngredients}
             hasValidRecipe={hasValidRecipe}
           />
-          <BuilderResults matches={matches} selectedCount={selectedIngredientIds.length} onClear={clearIngredients} />
+          {isSuggesting
+            ? <BuilderResultsSkeleton />
+            : <BuilderResults matches={matches} selectedCount={selectedIngredientIds.length} onClear={clearIngredients} />}
         </motion.div>
       </main>
     </PageTransition>

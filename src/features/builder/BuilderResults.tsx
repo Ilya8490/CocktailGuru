@@ -1,4 +1,5 @@
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
+import { Link } from 'react-router-dom'
 import { createStagger, reduceLargeMotion, revealVariants } from '../../animations'
 import { BuilderMatchCard } from './BuilderMatchCard'
 import type { BuilderMatch } from './builder.matching'
@@ -14,16 +15,17 @@ export function BuilderResults({ matches, selectedCount, onClear }: BuilderResul
 
   if (selectedCount === 0) {
     return (
-      <motion.section className="builder-results builder-results--empty" variants={reduceMotion ? reduceLargeMotion : revealVariants} initial="hidden" animate="visible">
+      <motion.section className="builder-results builder-results--empty" aria-label="Builder suggestions" variants={reduceMotion ? reduceLargeMotion : revealVariants} initial="hidden" animate="visible">
         <h2>Choose an ingredient to begin</h2>
-        <p>The Guru will compare your bar against all 25 recipes.</p>
+        <p>Select one bottle from the shelf and the Guru will compare your bar against all 25 recipes.</p>
+        <Link to="/library">Browse the Library</Link>
       </motion.section>
     )
   }
 
   if (!matches.length) {
     return (
-      <motion.section className="builder-results builder-results--empty" variants={reduceMotion ? reduceLargeMotion : revealVariants} initial="hidden" animate="visible">
+      <motion.section className="builder-results builder-results--empty" aria-label="Builder suggestions" variants={reduceMotion ? reduceLargeMotion : revealVariants} initial="hidden" animate="visible">
         <h2>No close pour yet</h2>
         <p>Add another ingredient or clear the glass to start fresh.</p>
         <button type="button" onClick={onClear}>Clear mixing glass</button>

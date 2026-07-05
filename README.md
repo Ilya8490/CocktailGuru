@@ -1,87 +1,22 @@
 # Cocktail Guru
 
-Cocktail Guru is a premium frontend portfolio experience for discovering, building, and saving cocktails. The application now includes the full editorial discovery flow, ingredient-based builder, persistent Favorites system, and a responsive Dark Luxury / Art Deco interface.
+Cocktail Guru is a premium React portfolio application for discovering, building, and saving cocktail recipes. It is designed as a dark luxury, Art Deco cocktail bar experience with editorial photography, cinematic motion, polished empty/error states, and a frontend architecture that stays approachable for review.
 
-## Phase 1
+## Features
 
-- Full-bleed, image-led Home experience
-- Graphic Art Deco design system with the Burgundy Velvet palette
-- Responsive Header, mobile navigation, and Footer
-- Working routes for Home, Builder, Library, and Favorites
-- Designed placeholders for later product phases
-- Branded not-found recovery page
-- Framer Motion entrances and scroll depth
-- Reduced-motion and keyboard-accessible behavior
-- Automated routing, navigation, and Home-page tests
+- Full-bleed Home experience with Burgundy Velvet art direction
+- Searchable cocktail Library with shareable URL search and filters
+- Data-driven cocktail detail pages with metric recipes, taste profiles, methods, garnish, and references
+- Interactive Builder that matches selected ingredients to exact and near recipe suggestions
+- Persistent Favorites powered by Zustand and safe LocalStorage storage
+- Premium loading, empty, and error recovery states across key routes
+- Responsive layouts for desktop, tablet, and mobile portfolio screenshots
+- Accessible navigation, focus states, keyboard interactions, reduced-motion support, and semantic page structure
 
-The later phases extend this foundation with a normalized cocktail dataset, Library filters, the interactive Builder, motion polish, persistent Favorites, and global responsive hardening.
+## Tech Stack
 
-## Phase 2 data layer
-
-- 63 normalized ingredients with stable IDs, categories, aliases, colors, and alcohol metadata
-- 25 complete metric-first recipes: 12 classics, 10 modern signatures, and 3 mocktails
-- Six-axis taste profiles covering sweet, sour, bitter, strong, fruity, and spicy
-- Pure lookup, recipe-resolution, search, filtering, ingredient-coverage, and measurement utilities
-- Exact Basil Beauty recipe with reference metadata
-
-Import types from `src/types`, catalog data from `src/data`, and public helpers from `src/utils`. Phase 2 remains independent of React state; Library controls and recommendation scoring belong to later phases.
-
-## Phase 3 Library
-
-- Responsive editorial grid for all 25 cocktails
-- Instant search and shareable URL filters for `style`, `ingredient`, `taste`, and `glass`
-- One shared filter configuration across desktop and mobile controls
-- Data-driven cocktail pages at `/library/:slug`
-- Complete metric recipes, taste profiles, methods, garnish, instructions, and references
-- Safe return navigation to the previous filtered Library view
-- Branded empty and invalid-cocktail recovery states
-
-Library state lives entirely in the URL. Search typing replaces the current history entry, while intentional filter changes create navigable history entries.
-
-## Phase 4 Builder
-
-- Interactive `/builder` route powered by URL-selected ingredient IDs
-- Tap-first ingredient selection with native drag-and-drop enhancement
-- Featured bar shelf plus full ingredient search
-- Mixing-glass selected state with clear and remove actions
-- Exact recipe matches first, followed by ranked near matches
-- No global state library or LocalStorage persistence
-
-## Phase 5 Motion polish
-
-- Reusable Framer Motion system with shared durations, easing, transitions, variants, stagger helpers, page transitions, hover/tap presets, and focused tests
-- Smooth route enter and exit transitions through `AnimatePresence`
-- Scroll reveals across Home, Library, cocktail detail, and Builder surfaces
-- Premium button, navigation, badge, chip, card, modal, and sheet interactions
-- Animated cocktail cards with entrance, hover lift, image zoom, shimmer, title/accent behavior, and tap compression
-- Builder motion polish for ingredient affordances, animated glass liquid, valid recipe glow, result reveals, and live taste bars
-- Reduced-motion support for animated surfaces and performance-friendly CSS transforms
-
-## Phase 6 Favorites
-
-- Persistent Favorites system powered by a dedicated Zustand store
-- Safe LocalStorage persistence using the `cocktail-guru-favorites` key
-- Storage shape limited to ordered `{ id, addedAt }` metadata instead of full cocktail objects
-- Duplicate prevention, add/remove/toggle actions, clear action, and corrupted-storage recovery
-- `useFavorites` hook resolves saved IDs against the cocktail dataset and filters missing recipes safely
-- Reusable accessible `FavoriteButton` on Library cards, cocktail detail pages, and Builder result cards
-- Complete `/favorites` page with premium hero, saved count, sorting, responsive cocktail grid, and polished empty state
-- Sorting support for newest first, oldest first, and alphabetical order
-- Navigation badge updates instantly as favorites change
-- Favorites page removal uses Framer Motion layout/exit animation for clean grid reflow
-- Store and page tests cover persistence behavior, duplicate prevention, corrupted LocalStorage handling, sorting, and removal
-
-## Responsive hardening
-
-- Global typography rhythm adjusted so large display headings do not overlap on mobile
-- Safer `clamp()` font sizes, line-height, and section spacing across Home, Library, Builder, Favorites, and detail pages
-- Grid and flex layouts refactored with stable `minmax(0, ...)`, earlier tablet breakpoints, wrapping controls, and phone-specific rules
-- Decorative Art Deco elements kept inside section boundaries at narrow widths
-- Browser-verified at 1440, 1024, 768, 430, and 390px with no horizontal overflow across key routes
-
-## Stack
-
-- React 19 and strict TypeScript
+- React 19
+- TypeScript
 - Vite 8
 - Tailwind CSS 4
 - React Router
@@ -90,53 +25,124 @@ Library state lives entirely in the URL. Search typing replaces the current hist
 - Vitest and React Testing Library
 - ESLint
 
-## Run locally
+## Visual Direction
+
+The project uses the Burgundy Velvet palette: deep ink backgrounds, burgundy surfaces, wine accents, antique gold rules, ivory text, and muted secondary copy. The interface is intentionally cinematic, with large cocktail imagery, elegant serif headings, thin uppercase labels, glassy surfaces, restrained shimmer, and subtle Framer Motion transitions.
+
+## Project Phases
+
+- Phase 1: Foundation, routing, layout, Home page, visual system
+- Phase 2: Normalized cocktail and ingredient data layer
+- Phase 3: Library search, filters, grid, and cocktail detail pages
+- Phase 4: Interactive ingredient Builder and matching logic
+- Phase 5: Motion system, page transitions, hover states, and reduced-motion handling
+- Phase 6: Persistent Favorites, sorting, favorite buttons, and storage recovery
+- Phase 7: Responsive and accessibility hardening across all key routes
+- Phase 8: Loading states, empty states, error states, screenshot guidance, deployment prep, and README polish
+
+## Accessibility
+
+- Skip link and semantic landmarks
+- Keyboard-accessible navigation, filters, favorites, and Builder controls
+- Escape key support and focus restoration for mobile menus and filter sheets
+- Visible gold focus rings on interactive elements
+- `aria-current`, `aria-expanded`, `aria-pressed`, live favorite counts, and screen-reader helper text where useful
+- Reduced-motion fallbacks for animated surfaces
+- Contrast-conscious dark theme with non-color-only favorite states
+
+## Responsive Design
+
+The app is tuned for common portfolio review sizes and narrow mobile layouts. Large display headings use safer `clamp()` sizing, grids collapse early, controls wrap before overflow, and decorative Art Deco elements stay inside section boundaries.
+
+Recommended manual review routes:
+
+- `/`
+- `/library`
+- `/builder`
+- `/library/negroni`
+- `/favorites`
+- `/library/not-a-cocktail`
+
+## Portfolio Screenshots
+
+Do not commit screenshot files unless a portfolio export folder already exists. Suggested captures:
+
+| Page | Viewport | Suggested name |
+| --- | --- | --- |
+| Home | 1440 x 1100 | `cocktail-guru-home-desktop.png` |
+| Library | 1440 x 1100 | `cocktail-guru-library-desktop.png` |
+| Builder | 1440 x 1100 | `cocktail-guru-builder-desktop.png` |
+| Detail | 1440 x 1100 | `cocktail-guru-detail-desktop.png` |
+| Favorites empty | 1440 x 1100 | `cocktail-guru-favorites-empty-desktop.png` |
+| Home mobile | 390 x 844 | `cocktail-guru-home-mobile.png` |
+| Builder mobile | 390 x 844 | `cocktail-guru-builder-mobile.png` |
+| Library mobile | 390 x 844 | `cocktail-guru-library-mobile.png` |
+
+## Local Setup
 
 ```bash
 npm install
 npm run dev
 ```
 
-Open the localhost URL printed by Vite.
+Open the local URL printed by Vite.
 
-## Quality commands
+## Build Commands
 
 ```bash
-npm run typecheck
-npm run lint
-npm test
+npm run dev
 npm run build
+npm run preview
+npm run test
+npm run lint
+npm run typecheck
 ```
+
+## Deployment
+
+The app is a Vite single-page application and is ready for Vercel or Netlify.
+
+### Vercel
+
+- Build command: `npm run build`
+- Output directory: `dist`
+- Install command: `npm install`
+- SPA refresh routing is handled by `vercel.json`.
+
+### Netlify
+
+- Build command: `npm run build`
+- Publish directory: `dist`
+- Install command: `npm install`
+- SPA refresh routing is handled by `public/_redirects`, which Vite copies into `dist`.
+
+After deployment, verify:
+
+- Direct refresh works on `/builder`, `/library`, `/library/negroni`, and `/favorites`
+- Images load from the built asset bundle
+- No console errors appear during primary flows
+- Favorites persist after reload
 
 ## Routes
 
-| Route | Behavior |
+| Route | Purpose |
 | --- | --- |
-| `/` | Complete landing experience |
-| `/builder` | URL-driven interactive cocktail builder |
+| `/` | Home and brand experience |
+| `/builder` | Ingredient-based cocktail builder |
 | `/library` | Searchable and filterable cocktail collection |
-| `/library/:slug` | Data-driven cocktail recipe and taste profile |
-| `/favorites` | Persistent saved cocktail collection with sorting and empty state |
-| Any unknown path | Branded 404 recovery |
+| `/library/:slug` | Cocktail recipe detail |
+| `/favorites` | Persistent saved collection |
+| Unknown paths | Branded recovery page |
 
-## Architecture
+## Architecture Notes
 
-`src/router.tsx` defines the application surface. `AppLayout` owns the persistent Header, routed content, and Footer. Home-page sections remain focused and composable under `src/components/home`, while reusable interaction primitives live under `src/components/ui`.
+Library and Builder state are URL-driven where shareability matters. Favorites use a small Zustand store with LocalStorage persistence and corrupted-storage recovery. The data layer stays local and typed, keeping the MVP frontend-only while still demonstrating production-style organization.
 
-Library and Builder state remain URL-driven where shareability matters. Persistent user data lives in the Favorites Zustand store under `src/stores`, while `src/hooks/useFavorites.ts` resolves saved IDs into renderable cocktail objects.
+## Future Improvements
 
-## Accessibility
-
-- Semantic landmarks and ordered heading hierarchy
-- Keyboard-visible focus treatment and skip link
-- Active-route semantics through `NavLink`
-- Mobile-menu expanded state and accessible naming
-- Accessible favorite buttons with semantic pressed state and non-color-only heart states
-- Screen-reader friendly favorite counts and live navigation badge updates
-- Descriptive image roles and stable image containers
-- WCAG AA-oriented color contrast
-- Static fallbacks for `prefers-reduced-motion`
-
-## Art direction
-
-The interface uses original, locally stored cocktail photography generated for this project. The visual system combines deep burgundy surfaces, antique-gold rules, large Cormorant Garamond typography, generous negative space, and restrained motion. Art Deco geometry structures the page without turning it into ornament for ornament’s sake.
+- Backend persistence and user accounts
+- AI-assisted recommendations
+- Expanded recipe dataset and seasonal collections
+- Ingredient inventory profiles
+- Advanced screenshot/export workflow for case studies
+- Optional analytics for feature usage and conversion paths

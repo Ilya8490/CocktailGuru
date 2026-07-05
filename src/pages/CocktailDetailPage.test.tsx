@@ -8,5 +8,6 @@ describe('Cocktail detail route', () => {
 
     expect(screen.getByRole('heading', { name: /this pour is not in the collection/i })).toBeInTheDocument()
     expect(screen.getByRole('link', { name: /return to the library/i })).toHaveAttribute('href', '/library')
+    expect(screen.getByRole('link', { name: /return home/i })).toHaveAttribute('href', '/')
   })
 })

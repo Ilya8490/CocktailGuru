@@ -40,6 +40,16 @@ describe('Builder page', () => {
     expect(screen.getAllByText(/choose an ingredient to begin/i).length).toBeGreaterThan(0)
   })
 
+  it('shows an empty builder state with a clear next action', () => {
+    renderApp('/builder')
+
+    const results = screen.getByRole('region', { name: /builder suggestions/i })
+
+    expect(within(results).getByRole('heading', { name: /choose an ingredient to begin/i })).toBeInTheDocument()
+    expect(within(results).getByText(/select one bottle from the shelf/i)).toBeInTheDocument()
+    expect(within(results).getByRole('link', { name: /browse the library/i })).toHaveAttribute('href', '/library')
+  })
+
   it('searches the full ingredient registry', async () => {
     const user = userEvent.setup()
     renderApp('/builder')

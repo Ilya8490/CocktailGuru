@@ -23,6 +23,7 @@ describe('Favorites page', () => {
     renderApp('/favorites')
 
     expect(screen.getByRole('heading', { name: /your private cocktail collection is waiting/i })).toBeInTheDocument()
+    expect(screen.getByText(/save a recipe from the library or builder/i)).toBeInTheDocument()
     expect(screen.getByRole('link', { name: /explore cocktails/i })).toHaveAttribute('href', '/library')
   })
 

@@ -65,7 +65,7 @@ export function FavoritesPage() {
               >
                 <span aria-hidden="true">♡</span>
                 <h2>Your private cocktail collection is waiting.</h2>
-                <p>Mark any cocktail with the heart and it will stay here for your next ritual.</p>
+                <p>Save a recipe from the Library or Builder and it will stay here for your next ritual.</p>
                 <Button to="/library">Explore Cocktails</Button>
               </motion.div>
             )}

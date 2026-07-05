@@ -18,6 +18,8 @@ describe('Library page', () => {
     const user = userEvent.setup()
     const { router } = renderApp('/library?q=definitely-no-cocktail')
 
+    expect(screen.getByText(/adjust the search or clear the filters/i)).toBeInTheDocument()
+
     await user.click(screen.getByRole('button', { name: /clear all filters/i }))
 
     expect(router.state.location.pathname).toBe('/library')
