@@ -11,7 +11,7 @@ export function CocktailGrid({ cocktails, from }: { cocktails: Cocktail[]; from:
       variants={createStagger({ staggerChildren: 0.06, delayChildren: 0.06 })}
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: true, amount: 0.12 }}
+      viewport={{ once: true, amount: 0.01 }}
     >
       <AnimatePresence mode="popLayout">
         {cocktails.map((cocktail, index) => (
