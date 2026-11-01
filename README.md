@@ -138,6 +138,8 @@ After deployment, verify:
 
 Library and Builder state are URL-driven where shareability matters. Favorites use a small Zustand store with LocalStorage persistence and corrupted-storage recovery. The data layer stays local and typed, keeping the MVP frontend-only while still demonstrating production-style organization.
 
+Recipe content and sourcing conventions are documented in the [Recipe Content Standard](./docs/recipe-content-standard.md).
+
 ## Future Improvements
 
 - Backend persistence and user accounts
